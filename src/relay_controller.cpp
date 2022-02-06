@@ -5,7 +5,7 @@
 #include "constants.h"
 
 const int NUM_RELAYS = 4;
-const int GPIO_PINS[NUM_RELAYS] = {2, 26, 27, 25};
+const int GPIO_PINS[NUM_RELAYS] = {2, 25, 26, 27};
 RelayController* RelayController::s_instance = nullptr;
 
 RelayController& RelayController::get() {
