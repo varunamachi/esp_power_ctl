@@ -1,5 +1,8 @@
-#include "ESPAsyncWebServer.h"
-#include "WiFi.h"
+#include <ESPAsyncWebServer.h>
+#include <WiFi.h>
+#include <ESPmDNS.h>
+#include <AsyncElegantOTA.h>
+
 #include "constants.h"
 #include "relay_controller.h"
 
@@ -12,6 +15,14 @@ void setup() {
         delay(1000);
         Serial.printf("Attempting connection to %s...\n", SSID);
     }
+
+    if (!MDNS.begin(ESP_MDNS_NAME)) {
+        Serial.printf("Failed to start mDNS\n");
+        return;
+    }
+
+    AsyncElegantOTA.begin(&server);
+
     Serial.printf("Connected with IP %s\n", WiFi.localIP().toString().c_str());
     RelayController::get().addHandlers(server);
     server.begin();
