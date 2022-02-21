@@ -1,6 +1,7 @@
 #pragma once
 
 #include <WString.h>
+#include <Preferences.h>
 
 #include "constants.h"
 
@@ -13,12 +14,12 @@ public:
     enum class ResultType : int {
         Ok = 0x00,
         RelayIndexExceeded = 0x101,
+        DefaultRelayStateSetFailed = 0x102,
     };
 
     ResultType setState(int slot, bool state);
     ResultType getState(int slot, bool& stateOut) const;
     int numRelays() const;
-    String getStateAsJSON() const;
     void addHandlers(AsyncWebServer& server);
 
     void send(AsyncWebServerRequest* req,
@@ -34,3 +35,5 @@ private:
 
     static RelayController* s_instance;
 };
+
+extern Preferences prefs;
