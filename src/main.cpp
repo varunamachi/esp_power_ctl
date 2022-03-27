@@ -20,6 +20,10 @@ void setup() {
         Serial.printf("Failed to start mDNS\n");
         return;
     }
+    if (!MDNS.addService("_relayctl", "_tcp", 80)) {
+        Serial.printf("Failed to add mDNS service\n");
+        return;
+    }
 
     AsyncElegantOTA.begin(&server);
 
