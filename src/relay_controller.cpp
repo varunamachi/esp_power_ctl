@@ -201,12 +201,18 @@ void handleSetAll(AsyncWebServerRequest* req) {
         toDefaultState = false;
     }
 
+    auto success = true;
+    auto res = RelayController::ResultType::Ok;
     for (auto i = 0; i < NUM_RELAYS; ++i) {
-        if (toDefaultState) {
-            RelayController::get().setState(i, getDefaultState(i));
+        auto newState = toDefaultState ? getDefaultState(i) : state;
+        res = RelayController::get().setState(i, state);
+        if (res != RelayController::ResultType::Ok) {
+            success = false;
         }
-        RelayController::get().setState(i, state);
     }
+    res = success ? RelayController::ResultType::Ok
+                  : RelayController::ResultType::AllStateSetFailed;
+    RelayController::get().send(req, res);
 }
 
 void handleRelayNumRequest(AsyncWebServerRequest* req) {

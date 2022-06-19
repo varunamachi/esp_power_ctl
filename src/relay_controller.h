@@ -15,6 +15,7 @@ public:
         Ok = 0x00,
         RelayIndexExceeded = 0x101,
         DefaultRelayStateSetFailed = 0x102,
+        AllStateSetFailed = 0x103,
     };
 
     ResultType setState(int slot, bool state);
